@@ -67,53 +67,53 @@ vec3 PointS( const vec3 LPos, const vec3 N, const vec3 P, const ray Ray, materia
 /* Direction light */
 vec3 DirS( const vec3 LDir, const vec3 N, const vec3 P, const ray Ray, material Mtl )
 {
- vec3 R = normalize(reflect(Ray.D, N));
+    vec3 R = normalize(reflect(Ray.D, N));
 
- vec3 diffuse = Mtl.Kd * max(0.0, dot(N, LDir));
- vec3 specular = Mtl.Ks * pow(max(0.0, dot(R, LDir)), Mtl.Ph);
+    vec3 diffuse = Mtl.Kd * max(0.0, dot(N, LDir));
+    vec3 specular = Mtl.Ks * pow(max(0.0, dot(R, LDir)), Mtl.Ph);
 
-  ray Refl;
-  Refl.D = LDir;
-  Refl.O = P + vec3(0.001) * N;
-  object O = AllInter(Refl);
+    ray Refl;
+    Refl.D = LDir;
+    Refl.O = P + vec3(0.001) * N;
+    object O = AllInter(Refl);
 
-  if (O.t > 0.0001 && O.t < 300.0)
-    return vec3(0);
+    if (O.t > 0.0001 && O.t < 300.0)
+        return vec3(0);
 
- return diffuse + specular;
+    return diffuse + specular;
 }
 
 float sphere( const vec3 c, float R, const ray Ray )
 {
- vec3 a = c - Ray.O;
- float ad = dot(a, Ray.D);
- float
-   OC = dot(a, a),
-   OK = ad * ad,
-   h2 = R * R - OC + OK;
- if (OC < R * R)
-   return ad + sqrt(h2);
-  if (h2 < 0.0)
-    return 400.0;
-  return ad - sqrt(h2);
+    vec3 a = c - Ray.O;
+    float ad = dot(a, Ray.D);
+    float
+        OC = dot(a, a),
+        OK = ad * ad,
+    h2 = R * R - OC + OK;
+    if (OC < R * R)
+        return ad + sqrt(h2);
+    if (h2 < 0.0)
+        return 400.0;
+    return ad - sqrt(h2);
 }
 
 float plane( const vec3 N, const vec3 P, const ray Ray )
 {
- float p = dot(N, Ray.D);
- float D = dot(N, P);
- if (abs(p) > 0.0001)
-   return -(dot(N, Ray.O) - D) / p;
- return 400.0;
+    float p = dot(N, Ray.D);
+    float D = dot(N, P);
+    if (abs(p) > 0.0001)
+        return -(dot(N, Ray.O) - D) / p;
+    return 400.0;
 }
 
 float plane1( const vec3 N, float D, const ray Ray )
 {
- float p = dot(N, Ray.D);
+    float p = dot(N, Ray.D);
 
- if (abs(p) > 0.0001)
-   return -(dot(N, Ray.O) - D) / p;
- return 400.0;
+    if (abs(p) > 0.0001)
+        return -(dot(N, Ray.O) - D) / p;
+    return 400.0;
 }
 
 float box( const vec3 P1, const vec3 P2, const ray Ray )
